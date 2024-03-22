@@ -9,5 +9,6 @@ import { IsUserAlreadyExistConstraint } from './validators/isNicknameUnique';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UsersController],
   providers: [UsersService, IsUserAlreadyExistConstraint],
+  exports: [UsersService],
 })
 export class UsersModule {}

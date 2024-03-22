@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -14,7 +13,7 @@ export class UsersService extends BaseService<UserEntity> {
     private repo: Repository<UserEntity>,
     private connection: DataSource,
   ) {
-    super(repo)
+    super(repo);
   }
 
   async createUser(createUserDto: CreateUserDto) {
@@ -22,9 +21,9 @@ export class UsersService extends BaseService<UserEntity> {
     return this.create(createUserDto);
   }
 
-  async isNicknameUnique(nickName: string): Promise<boolean> {
-    const user = await this.findOne({ where: { nickName } });
-    
+  async isNicknameUnique(nickname: string): Promise<boolean> {
+    const user = await this.findOne({ where: { nickname } });
+
     return !user;
   }
 }
