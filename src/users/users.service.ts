@@ -6,6 +6,7 @@ import { DataSource, Repository } from 'typeorm';
 import { BaseService } from 'src/base/base.service';
 import * as bcrypt from 'bcryptjs';
 import createNickName, { randomNumber } from 'src/libs/helper';
+import { ROLE } from 'src/shared/enum';
 
 const passworDefault = '1111';
 
@@ -20,28 +21,42 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    const nickname = createNickName(createUserDto?.fullname);
+    const nickname = await this.createNickName(createUserDto?.fullname);
     createUserDto.nickname = nickname;
-    let password = passworDefault;
-
-    const checkUser = await this.repo.findOne({
-      where: {
-        nickname,
-        password: passworDefault,
-      },
-    });
-
-    if (checkUser) {
-      password = `${randomNumber()}`;
-    }
-    createUserDto.password = await bcrypt.hash(password, 10);
+    createUserDto.password = await bcrypt.hash(passworDefault, 10);
 
     return this.create(createUserDto);
   }
 
-  async isNicknameUnique(nickname: string): Promise<boolean> {
-    const user = await this.findOne({ where: { nickname } });
+  async createNickName(fullname: string, nicknameCb?: string) {
+    let nickname = '';
 
-    return !user;
+    if (!nicknameCb) {
+      nickname = createNickName(fullname);
+    } else {
+      nickname = nicknameCb;
+    }
+
+    const checkUser = await this.repo.findOne({
+      where: {
+        nickname,
+      },
+    });
+
+    if (checkUser) {
+      const newNickname = `${nickname}${randomNumber()}`;
+
+      return this.createNickName(fullname, newNickname);
+    }
+
+    return nickname;
+  }
+
+  findAllBy(type: ROLE) {
+    return this.repo.find({
+      where: {
+        role: type,
+      },
+    });
   }
 }

@@ -2,7 +2,9 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 import { IsUserAlreadyExist } from '../validators/isNicknameUnique';
@@ -36,13 +38,18 @@ export class CreateUserDto {
   @MaxLength(100, {
     message: 'Password qúa dài!.',
   })
-  @MinLength(3, {
+  @MinLength(4, {
     message: 'Password qúa ngắn!.',
   })
   password?: string;
 
   @IsOptional()
   @IsNumber()
-  @MaxLength(1)
+  @Max(4, {
+    message: 'Role qúa không hợp lệ!.',
+  })
+  @Min(1, {
+    message: 'Role qúa không hợp lệ!.',
+  })
   role?: number;
 }
