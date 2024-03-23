@@ -5,6 +5,9 @@ import { UserEntity } from './user.entity';
 import { DataSource, Repository } from 'typeorm';
 import { BaseService } from 'src/base/base.service';
 import * as bcrypt from 'bcryptjs';
+import createNickName, { randomNumber } from 'src/libs/helper';
+
+const passworDefault = '1111';
 
 @Injectable()
 export class UsersService extends BaseService<UserEntity> {
@@ -17,7 +20,22 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
+    const nickname = createNickName(createUserDto?.fullname);
+    createUserDto.nickname = nickname;
+    let password = passworDefault;
+
+    const checkUser = await this.repo.findOne({
+      where: {
+        nickname,
+        password: passworDefault,
+      },
+    });
+
+    if (checkUser) {
+      password = `${randomNumber()}`;
+    }
+    createUserDto.password = await bcrypt.hash(password, 10);
+
     return this.create(createUserDto);
   }
 
