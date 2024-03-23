@@ -22,13 +22,17 @@ export class AuthService {
         nickname,
       },
     });
-    const match = await bcrypt.compare(password, user?.password);
 
-    if (!match) {
-      throw new UnauthorizedException();
+    if (user) {
+      const match = await bcrypt.compare(password, user?.password);
+
+      if (match) {
+        const payload = { userId: user.id, email: user.nickname };
+        return this.createToken(payload);
+      }
     }
-    const payload = { userId: user.id, email: user.nickname };
-    return this.createToken(payload);
+
+    throw new UnauthorizedException();
   }
 
   async createToken(payload: { email: string; userId: number }) {
