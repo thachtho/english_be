@@ -31,7 +31,7 @@ export class AuthController {
 
     res.setHeader('Set-Cookie', [`token=${access_token}; HttpOnly; Path=/`]);
 
-    return res.send({ refresh_token, access_token });
+    return res.send({ refresh_token });
   }
 
   @Post('register')

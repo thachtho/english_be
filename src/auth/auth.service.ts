@@ -27,7 +27,7 @@ export class AuthService {
       const match = await bcrypt.compare(password, user?.password);
 
       if (match) {
-        const payload = { userId: user.id, email: user.nickname };
+        const payload = { userId: user.id, nickname: user.nickname };
         return this.createToken(payload);
       }
     }
@@ -35,7 +35,7 @@ export class AuthService {
     throw new UnauthorizedException();
   }
 
-  async createToken(payload: { email: string; userId: number }) {
+  async createToken(payload: { nickname: string; userId: number }) {
     return {
       access_token: await this.jwtService.signAsync(payload, {
         expiresIn: '1d',
@@ -57,7 +57,7 @@ export class AuthService {
 
       const payload = {
         userId: decodedToken.userId,
-        email: decodedToken.email,
+        nickname: decodedToken.nickname,
       };
       const { access_token, refresh_token } = await this.createToken(payload);
 
