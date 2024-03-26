@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClassModule } from './class/class.module';
 import { ControlModule } from './control/control.module';
 import { UsersModule } from './users/users.module';
+import { RoleControlModule } from './role_control/role_control.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { UsersModule } from './users/users.module';
     AgencyModule,
     AuthModule,
     ControlModule,
+    RoleControlModule,
   ],
   controllers: [AppController],
   providers: [

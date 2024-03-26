@@ -42,6 +42,11 @@ export class UsersController {
     return this.usersService.findAllBy(ROLE.TEACHER);
   }
 
+  @Get('/student')
+  findStudent() {
+    return this.usersService.findAllBy(ROLE.STUDENT);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne({
