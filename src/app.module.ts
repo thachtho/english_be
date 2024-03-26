@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AgencyModule } from './agency/agency.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ClassModule } from './class/class.module';
-import { AgencyModule } from './agency/agency.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './users/user.entity';
-import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { AuthModule } from './auth/auth.module';
+import { ClassModule } from './class/class.module';
 import { ControlModule } from './control/control.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -22,7 +21,7 @@ import { ControlModule } from './control/control.module';
           username: 'root',
           password: '111111',
           database: 'english',
-          entities: [UserEntity],
+          // entities: [UserEntity],
           synchronize: true,
           logging: 'all',
           autoLoadEntities: true,

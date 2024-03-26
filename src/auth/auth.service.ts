@@ -27,7 +27,11 @@ export class AuthService {
       const match = await bcrypt.compare(password, user?.password);
 
       if (match) {
-        const payload = { userId: user.id, nickname: user.nickname };
+        const payload = {
+          userId: user.id,
+          nickname: user.nickname,
+          role: user.role,
+        };
         return this.createToken(payload);
       }
     }
@@ -35,7 +39,11 @@ export class AuthService {
     throw new UnauthorizedException();
   }
 
-  async createToken(payload: { nickname: string; userId: number }) {
+  async createToken(payload: {
+    nickname: string;
+    userId: number;
+    role: number;
+  }) {
     return {
       access_token: await this.jwtService.signAsync(payload, {
         expiresIn: '1d',
@@ -58,6 +66,7 @@ export class AuthService {
       const payload = {
         userId: decodedToken.userId,
         nickname: decodedToken.nickname,
+        role: decodedToken.role,
       };
       const { access_token, refresh_token } = await this.createToken(payload);
 

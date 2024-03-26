@@ -7,21 +7,31 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
-import { Public } from 'src/libs/guard/guard';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
 import { ROLE } from 'src/shared/enum';
+import { CreateUserDto } from './dto/create-user.dto';
+import { AddCreatedByInterceptor } from './interceptors/add-createdBy.interceptor';
+import { UsersService } from './users.service';
 
 @Controller('users')
-@Public()
+@UseInterceptors(AddCreatedByInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async createTeacherOrStudent(@Body() createUserDto: CreateUserDto) {
     try {
-      return await this.usersService.createUser(createUserDto);
+      return await this.usersService.createTeacherOrStudent(createUserDto);
+    } catch (error) {
+      throw new HttpException(error?.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('/admin-agency')
+  async createAdminAgency(@Body() createUserDto: CreateUserDto) {
+    try {
+      return await this.usersService.createAdminAgency(createUserDto);
     } catch (error) {
       throw new HttpException(error?.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

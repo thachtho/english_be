@@ -20,7 +20,7 @@ export class UsersService extends BaseService<UserEntity> {
     super(repo);
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createTeacherOrStudent(createUserDto: CreateUserDto) {
     const nickname = await this.createNickName(createUserDto?.fullname);
     createUserDto.nickname = nickname;
     createUserDto.password = await bcrypt.hash(passworDefault, 10);
@@ -50,6 +50,13 @@ export class UsersService extends BaseService<UserEntity> {
     }
 
     return nickname;
+  }
+
+  async createAdminAgency(createUserDto: CreateUserDto) {
+    createUserDto.role = ROLE.ADMIN_AGENCY;
+    createUserDto.password = await bcrypt.hash(passworDefault, 10);
+
+    return this.repo.save(createUserDto);
   }
 
   findAllBy(type: ROLE) {
