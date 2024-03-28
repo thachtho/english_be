@@ -18,7 +18,7 @@ import { RoleControlModule } from './role_control/role_control.module';
         return {
           type: 'mysql',
           host: 'localhost',
-          port: 3307,
+          port: 3306,
           username: 'root',
           password: '111111',
           database: 'english',

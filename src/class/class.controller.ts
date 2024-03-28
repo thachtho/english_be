@@ -1,11 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ClassService } from './class.service';
 import { CreateClassDto } from './dto/create-class.dto';
-import { UpdateClassDto } from './dto/update-class.dto';
+import { AddCreatedByInterceptor } from 'src/users/interceptors/add-createdBy.interceptor';
+import { IUserRequest } from 'src/shared/interface';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('class')
+@UseInterceptors(AddCreatedByInterceptor)
 export class ClassController {
-  constructor(private readonly classService: ClassService) {}
+  constructor(
+    private readonly classService: ClassService,
+    private readonly userService: UsersService,
+  ) {}
 
   @Post()
   create(@Body() createClassDto: CreateClassDto) {
@@ -13,22 +26,13 @@ export class ClassController {
   }
 
   @Get()
-  findAll() {
-    return this.classService.findAll();
-  }
+  async findAll(@Req() req: IUserRequest) {
+    const user = await this.userService.findOne({
+      where: {
+        id: req.user.userId,
+      },
+    });
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.classService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClassDto: UpdateClassDto) {
-    return this.classService.update(+id, updateClassDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.classService.remove(+id);
+    return this.classService.getAllByAgency(user.agencyId);
   }
 }

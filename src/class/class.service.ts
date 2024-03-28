@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClassDto } from './dto/create-class.dto';
-import { UpdateClassDto } from './dto/update-class.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BaseService } from 'src/base/base.service';
+import { Repository } from 'typeorm';
+import { ClassEntity } from './class.entity';
 
 @Injectable()
-export class ClassService {
-  create(createClassDto: CreateClassDto) {
-    return 'This action adds a new class';
+export class ClassService extends BaseService<ClassEntity> {
+  constructor(
+    @InjectRepository(ClassEntity)
+    private repo: Repository<ClassEntity>,
+  ) {
+    super(repo);
   }
 
-  findAll() {
-    return `This action returns all class`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} class`;
-  }
-
-  update(id: number, updateClassDto: UpdateClassDto) {
-    return `This action updates a #${id} class`;
+  getAllByAgency(agencyId: number) {
+    return this.repo.find({
+      where: {
+        agencyId,
+      },
+    });
   }
 
   remove(id: number) {

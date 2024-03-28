@@ -7,12 +7,14 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
   UseInterceptors,
 } from '@nestjs/common';
 import { ROLE } from 'src/shared/enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AddCreatedByInterceptor } from './interceptors/add-createdBy.interceptor';
 import { UsersService } from './users.service';
+import { IUserRequest } from 'src/shared/interface';
 
 @Controller('users')
 @UseInterceptors(AddCreatedByInterceptor)
@@ -38,13 +40,19 @@ export class UsersController {
   }
 
   @Get('/teacher')
-  findTeacher() {
-    return this.usersService.findAllBy(ROLE.TEACHER);
+  async findTeacher(@Req() req: IUserRequest) {
+    return this.usersService.getTeachersOrStudents(
+      req.user.userId,
+      ROLE.TEACHER,
+    );
   }
 
   @Get('/student')
-  findStudent() {
-    return this.usersService.findAllBy(ROLE.STUDENT);
+  async findStudent(@Req() req: IUserRequest) {
+    return this.usersService.getTeachersOrStudents(
+      req.user.userId,
+      ROLE.STUDENT,
+    );
   }
 
   @Get(':id')

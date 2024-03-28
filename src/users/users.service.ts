@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './user.entity';
-import { DataSource, Repository } from 'typeorm';
-import { BaseService } from 'src/base/base.service';
 import * as bcrypt from 'bcryptjs';
+import { BaseService } from 'src/base/base.service';
 import createNickName, { randomNumber } from 'src/libs/helper';
 import { ROLE } from 'src/shared/enum';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserEntity } from './user.entity';
 
 const passworDefault = '1111';
 
@@ -15,7 +15,6 @@ export class UsersService extends BaseService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private repo: Repository<UserEntity>,
-    private connection: DataSource,
   ) {
     super(repo);
   }
@@ -59,10 +58,17 @@ export class UsersService extends BaseService<UserEntity> {
     return this.repo.save(createUserDto);
   }
 
-  findAllBy(type: ROLE) {
+  async getTeachersOrStudents(userId: number, role: number) {
+    const user = await this.repo.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
     return this.repo.find({
       where: {
-        role: type,
+        role,
+        agencyId: user.agencyId,
       },
     });
   }

@@ -27,7 +27,10 @@ export class UserEntity {
   @Column({ default: 0, name: 'agency_id' })
   agencyId?: number;
 
-  @Column({ name: 'created_by' })
+  @Column({ default: 0, name: 'class_id' })
+  classId?: number;
+
+  @Column({ name: 'created_by', default: 0 })
   createdBy?: number;
 
   @DeleteDateColumn({ name: 'delete_at' })
