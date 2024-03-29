@@ -23,6 +23,12 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
+    const roles = this.reflector.getAllAndOverride<boolean>('roles', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    console.log(1111, roles);
+
     if (isPublic) {
       return true;
     }
