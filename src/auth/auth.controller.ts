@@ -7,7 +7,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { Public, Auth } from 'src/libs/guard/guard';
+import { Public } from 'src/libs/guard/guard';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginDto } from './dto/login.dto';
@@ -18,7 +18,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Auth(['Admin'])
   @Post('login')
   async signIn(
     @Body() signInDto: LoginDto,

@@ -9,12 +9,16 @@ import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from 'src/libs/guard/guard';
 import { jwtConstants } from './auth.module';
 import { Request } from 'express';
+import { UsersService } from 'src/users/users.service';
+import { UserEntity } from 'src/users/user.entity';
+import { ROLE } from 'src/shared/enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private userService: UsersService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -23,11 +27,10 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    const roles = this.reflector.getAllAndOverride<boolean>('roles', [
+    const roles = this.reflector.getAllAndOverride<number[]>('roles', [
       context.getHandler(),
       context.getClass(),
     ]);
-    console.log(1111, roles);
 
     if (isPublic) {
       return true;
@@ -43,8 +46,15 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
+      const user = await this.userService.findOne({
+        where: {
+          id: payload.userId,
+        },
+        select: ['role', 'id', 'agencyId', 'nickname', 'classId'],
+      });
 
-      request['user'] = payload;
+      this.checkPermission(roles, user);
+      request['user'] = user;
     } catch (err) {
       throw new UnauthorizedException();
     }
@@ -78,5 +88,19 @@ export class AuthGuard implements CanActivate {
     }
 
     return tokenValue;
+  }
+
+  private checkPermission(roles: number[], user: UserEntity) {
+    if (user.role === ROLE.ADMIN) {
+      return;
+    }
+
+    if (roles) {
+      const isCheck = roles.includes(user.role);
+
+      if (!isCheck) {
+        throw new UnauthorizedException();
+      }
+    }
   }
 }

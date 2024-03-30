@@ -1,8 +1,11 @@
+import { ClassEntity } from 'src/class/class.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -27,7 +30,7 @@ export class UserEntity {
   @Column({ default: 0, name: 'agency_id' })
   agencyId?: number;
 
-  @Column({ default: 0, name: 'class_id' })
+  @Column({ default: 1, name: 'class_id' })
   classId?: number;
 
   @Column({ name: 'created_by', default: 0 })
@@ -38,4 +41,8 @@ export class UserEntity {
 
   @CreateDateColumn({ name: 'created_at' }) createdAt?: Date;
   @UpdateDateColumn({ name: 'updated_at' }) updatedAt?: Date;
+
+  @ManyToOne(() => ClassEntity, (classs) => classs.students)
+  @JoinColumn({ name: 'class_id' })
+  class?: ClassEntity;
 }

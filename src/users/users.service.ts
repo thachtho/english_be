@@ -1,14 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { BaseService } from 'src/base/base.service';
 import createNickName, { randomNumber } from 'src/libs/helper';
 import { ROLE } from 'src/shared/enum';
-import { Repository } from 'typeorm';
+import { IUserRequest } from 'src/shared/interface';
+import { FindOptionsSelect, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
 
 const passworDefault = '1111';
+const userExcludePassword = [
+  'id',
+  'fullname',
+  'nickname',
+  'role',
+  'agencyId',
+  'classId',
+  'createdBy',
+  'deletedAt',
+  'createdAt',
+  'updatedAt',
+] as FindOptionsSelect<UserEntity>;
 
 @Injectable()
 export class UsersService extends BaseService<UserEntity> {
@@ -70,6 +83,22 @@ export class UsersService extends BaseService<UserEntity> {
         role,
         agencyId: user.agencyId,
       },
+      select: userExcludePassword,
     });
+  }
+
+  async getProfile(id: number, req: IUserRequest) {
+    const user = await this.repo.findOne({
+      where: {
+        id,
+      },
+      select: userExcludePassword,
+    });
+
+    if (req.user.id !== user.id) {
+      throw new UnauthorizedException();
+    }
+
+    return user;
   }
 }

@@ -21,6 +21,22 @@ export class ClassService extends BaseService<ClassEntity> {
     });
   }
 
+  async getClassDetail(id: number) {
+    const data = await this.repo.findOne({
+      where: {
+        id: +id,
+      },
+      relations: {
+        students: true,
+      },
+    });
+
+    console.log(123123, data);
+
+
+    return data;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} class`;
   }

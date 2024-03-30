@@ -15,6 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { AddCreatedByInterceptor } from './interceptors/add-createdBy.interceptor';
 import { UsersService } from './users.service';
 import { IUserRequest } from 'src/shared/interface';
+import { Auth } from 'src/libs/guard/guard';
 
 @Controller('users')
 @UseInterceptors(AddCreatedByInterceptor)
@@ -22,6 +23,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Auth([ROLE.ADMIN_AGENCY])
   async createTeacherOrStudent(@Body() createUserDto: CreateUserDto) {
     try {
       return await this.usersService.createTeacherOrStudent(createUserDto);
@@ -31,6 +33,7 @@ export class UsersController {
   }
 
   @Post('/admin-agency')
+  @Auth([ROLE.ADMIN])
   async createAdminAgency(@Body() createUserDto: CreateUserDto) {
     try {
       return await this.usersService.createAdminAgency(createUserDto);
@@ -39,24 +42,21 @@ export class UsersController {
     }
   }
 
-  @Get('/teacher')
+  @Get('/teachers')
+  @Auth([ROLE.ADMIN_AGENCY])
   async findTeacher(@Req() req: IUserRequest) {
-    return this.usersService.getTeachersOrStudents(
-      req.user.userId,
-      ROLE.TEACHER,
-    );
+    return this.usersService.getTeachersOrStudents(req.user.id, ROLE.TEACHER);
   }
 
-  @Get('/student')
+  @Get('/students')
+  @Auth([ROLE.ADMIN_AGENCY])
   async findStudent(@Req() req: IUserRequest) {
-    return this.usersService.getTeachersOrStudents(
-      req.user.userId,
-      ROLE.STUDENT,
-    );
+    return this.usersService.getTeachersOrStudents(req.user.id, ROLE.STUDENT);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Auth([ROLE.ADMIN_AGENCY])
+  findOneWithAdminAgency(@Param('id') id: string) {
     return this.usersService.findOne({
       where: {
         id: +id,
@@ -64,9 +64,9 @@ export class UsersController {
     });
   }
 
-  @Get()
-  find() {
-    return this.usersService.findAll();
+  @Get('/profile/:id')
+  profile(@Param('id') id: string, @Req() req: IUserRequest) {
+    return this.usersService.getProfile(+id, req);
   }
 
   @Delete(':id')
