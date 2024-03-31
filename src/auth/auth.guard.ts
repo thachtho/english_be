@@ -50,7 +50,7 @@ export class AuthGuard implements CanActivate {
         where: {
           id: payload.userId,
         },
-        select: ['role', 'id', 'agencyId', 'nickname', 'classId'],
+        select: ['role', 'id', 'agencyId', 'nickname'],
       });
 
       this.checkPermission(roles, user);

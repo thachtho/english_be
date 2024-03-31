@@ -16,7 +16,6 @@ const userExcludePassword = [
   'nickname',
   'role',
   'agencyId',
-  'classId',
   'createdBy',
   'deletedAt',
   'createdAt',

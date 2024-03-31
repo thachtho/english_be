@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
@@ -8,6 +9,9 @@ import {
 export class BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
+
+  @Column({ name: 'created_by', default: 0 })
+  createdBy?: number;
 
   @DeleteDateColumn({ name: 'delete_at' })
   deletedAt?: Date;

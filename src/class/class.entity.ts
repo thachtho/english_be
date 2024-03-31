@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/base/base.entity';
-import { UserEntity } from 'src/users/user.entity';
+import { ClassToUserEntity } from 'src/class-user/class-user.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'class' })
@@ -13,6 +13,9 @@ export class ClassEntity extends BaseEntity {
   @Column({ name: 'teacher_id' })
   teacherId: number;
 
-  @OneToMany(() => UserEntity, (students) => students.class)
-  students: UserEntity[];
+  @OneToMany(() => ClassToUserEntity, (classToUser) => classToUser.class)
+  public classToUsers: ClassToUserEntity[];
+
+  // @OneToMany(() => UserEntity, (students) => students.class)
+  // students: UserEntity[];
 }

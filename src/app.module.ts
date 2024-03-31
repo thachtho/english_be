@@ -10,6 +10,8 @@ import { ClassModule } from './class/class.module';
 import { ControlModule } from './control/control.module';
 import { UsersModule } from './users/users.module';
 import { RoleControlModule } from './role_control/role_control.module';
+import { ClassUserModule } from './class-user/class-user.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { RoleControlModule } from './role_control/role_control.module';
     AuthModule,
     ControlModule,
     RoleControlModule,
+    ClassUserModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [
