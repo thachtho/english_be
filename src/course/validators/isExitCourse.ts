@@ -6,17 +6,21 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { ClassService } from '../class.service';
+import { CourseService } from '../course.service';
 
 @ValidatorConstraint({ async: true })
-export class IsClassAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
-  constructor(private readonly classService: ClassService) {}
+export class IsExitCouseConstraint implements ValidatorConstraintInterface {
+  constructor(private readonly courseServiceuserService: CourseService) {}
   async validate(name: any, args: ValidationArguments) {
-    const data = await this.classService.findOne({
+    const from = args.object['from'];
+    const to = args.object['to'];
+    const agencyId = args.object['agencyId'];
+
+    const data = await this.courseServiceuserService.findOne({
       where: {
-        name: args.object['name'].trim(),
+        from,
+        to,
+        agencyId,
       },
     });
 
@@ -28,15 +32,14 @@ export class IsClassAlreadyExistConstraint
   }
 }
 
-export function IsClassAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsExitCouse(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
       constraints: [],
-      validator: IsClassAlreadyExistConstraint,
-      async: true,
+      validator: IsExitCouseConstraint,
     });
   };
 }

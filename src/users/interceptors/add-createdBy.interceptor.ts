@@ -14,7 +14,12 @@ export class AddCreatedByInterceptor implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
     const { body, user, method } = context.switchToHttp().getRequest();
 
-    if (method === IMethodRequest.POST && user) {
+    if (
+      (method === IMethodRequest.POST ||
+        method === IMethodRequest.PUT ||
+        method === IMethodRequest.PATCH) &&
+      user
+    ) {
       const response = await this.userService.findOne({
         where: {
           id: user?.id,

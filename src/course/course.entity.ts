@@ -8,4 +8,7 @@ export class CourseEntity extends BaseEntity {
 
   @Column()
   to: number;
+
+  @Column({ default: 0, name: 'agency_id' })
+  agencyId?: number;
 }
