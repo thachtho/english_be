@@ -24,4 +24,18 @@ export class CourseService extends BaseService<CourseEntity> {
       },
     });
   }
+
+  async getDefaultCourse(agencyId: number) {
+    const data = await this.repo.findOne({
+      where: {
+        agencyId,
+      },
+      select: ['id'],
+      order: {
+        id: 'DESC',
+      },
+    });
+
+    return data?.id;
+  }
 }

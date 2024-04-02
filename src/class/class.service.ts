@@ -13,10 +13,10 @@ export class ClassService extends BaseService<ClassEntity> {
     super(repo);
   }
 
-  getAllByAgency(agencyId: number) {
+  getAllByCourseId(courseId: number) {
     return this.repo.find({
       where: {
-        agencyId,
+        courseId,
       },
     });
   }

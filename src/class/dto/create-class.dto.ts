@@ -1,6 +1,7 @@
-import { IsNumber, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, MaxLength, MinLength } from 'class-validator';
 
 export class CreateClassDto {
+  @IsNotEmpty()
   @MaxLength(50, {
     message: 'Tên lớp qúa dài!.',
   })
@@ -9,6 +10,15 @@ export class CreateClassDto {
   })
   name: string;
 
+  @IsNotEmpty()
   @IsNumber()
   agencyId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  courseId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  teacherId: number;
 }

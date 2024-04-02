@@ -7,6 +7,7 @@ import {
   registerDecorator,
 } from 'class-validator';
 import { CourseService } from '../course.service';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @ValidatorConstraint({ async: true })
 export class IsExitCouseConstraint implements ValidatorConstraintInterface {
@@ -27,6 +28,8 @@ export class IsExitCouseConstraint implements ValidatorConstraintInterface {
     if (data?.id === args.object['id']) {
       return true;
     }
+
+    throw new HttpException('con heo ngu', HttpStatus.INTERNAL_SERVER_ERROR);
 
     return !data;
   }

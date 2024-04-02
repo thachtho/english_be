@@ -6,25 +6,20 @@ import {
   Param,
   Patch,
   Post,
-  Req,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { ClassService } from './class.service';
-import { CreateClassDto } from './dto/create-class.dto';
-import { AddCreatedByInterceptor } from 'src/users/interceptors/add-createdBy.interceptor';
-import { IUserRequest } from 'src/shared/interface';
-import { UsersService } from 'src/users/users.service';
 import { Auth } from 'src/libs/guard/guard';
 import { ROLE } from 'src/shared/enum';
+import { AddCreatedByInterceptor } from 'src/users/interceptors/add-createdBy.interceptor';
+import { ClassService } from './class.service';
+import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
 
 @Controller('class')
 @UseInterceptors(AddCreatedByInterceptor)
 export class ClassController {
-  constructor(
-    private readonly classService: ClassService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly classService: ClassService) {}
 
   @Post()
   @Auth([ROLE.ADMIN_AGENCY])
@@ -34,14 +29,9 @@ export class ClassController {
 
   @Get()
   @Auth([ROLE.ADMIN_AGENCY])
-  async findAll(@Req() req: IUserRequest) {
-    const user = await this.userService.findOne({
-      where: {
-        id: req.user.id,
-      },
-    });
-
-    return this.classService.getAllByAgency(user.agencyId);
+  async findAll(@Query() query: { courseId: string }) {
+    const { courseId } = query;
+    return this.classService.getAllByCourseId(+courseId);
   }
 
   @Patch(':id')

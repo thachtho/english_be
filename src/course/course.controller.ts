@@ -22,6 +22,12 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
+  @Get('/default')
+  @Auth([ROLE.ADMIN_AGENCY])
+  defaultCourse(@Req() req: IUserRequest) {
+    return this.courseService.getDefaultCourse(req.user.agencyId);
+  }
+
   @Post()
   @Auth([ROLE.ADMIN_AGENCY])
   create(@Body() createCourseDto: CreateCourseDto) {

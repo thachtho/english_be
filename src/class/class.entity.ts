@@ -13,6 +13,9 @@ export class ClassEntity extends BaseEntity {
   @Column({ name: 'teacher_id' })
   teacherId: number;
 
+  @Column({ name: 'course_id' })
+  courseId: number;
+
   @OneToMany(() => ClassToUserEntity, (classToUser) => classToUser.class)
   public classToUsers: ClassToUserEntity[];
 
