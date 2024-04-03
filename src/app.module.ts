@@ -19,8 +19,8 @@ import { CourseModule } from './course/course.module';
       useFactory() {
         return {
           type: 'mysql',
-          host: 'localhost',
-          port: 3306,
+          host: '103.151.238.40',
+          port: 3307,
           username: 'root',
           password: '111111',
           database: 'english',

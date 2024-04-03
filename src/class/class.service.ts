@@ -22,11 +22,12 @@ export class ClassService extends BaseService<ClassEntity> {
   }
 
   async getClassDetail(id: number) {
-    return this.repo.findOne({
+    const data = await this.repo.findOne({
       where: {
         id: +id,
       },
       relations: {
+        teacher: true,
         classToUsers: {
           user: true,
         },
@@ -34,7 +35,11 @@ export class ClassService extends BaseService<ClassEntity> {
       select: {
         id: true,
         name: true,
-        teacherId: true,
+        teacher: {
+          id: true,
+          fullname: true,
+          nickname: true,
+        },
         classToUsers: {
           id: true,
           user: {
@@ -45,6 +50,10 @@ export class ClassService extends BaseService<ClassEntity> {
         },
       },
     });
+
+    console.log(123213, data);
+
+    return data;
   }
 
   remove(id: number) {
