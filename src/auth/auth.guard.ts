@@ -12,6 +12,7 @@ import { Request } from 'express';
 import { UsersService } from 'src/users/users.service';
 import { UserEntity } from 'src/users/user.entity';
 import { ROLE } from 'src/shared/enum';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,6 +20,7 @@ export class AuthGuard implements CanActivate {
     private jwtService: JwtService,
     private reflector: Reflector,
     private userService: UsersService,
+    private readonly cls: ClsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -55,6 +57,7 @@ export class AuthGuard implements CanActivate {
 
       this.checkPermission(roles, user);
       request['user'] = user;
+      this.cls.set('user', JSON.stringify(user));
     } catch (err) {
       throw new UnauthorizedException();
     }

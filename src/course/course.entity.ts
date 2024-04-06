@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/base/base.entity';
-import { Column, Entity } from 'typeorm';
+import { ClassEntity } from 'src/class/class.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'course' })
 export class CourseEntity extends BaseEntity {
@@ -11,4 +12,7 @@ export class CourseEntity extends BaseEntity {
 
   @Column({ default: 0, name: 'agency_id' })
   agencyId?: number;
+
+  @OneToMany(() => ClassEntity, (classList) => classList.course)
+  public classList: ClassEntity[];
 }

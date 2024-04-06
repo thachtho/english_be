@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
 import { Repository } from 'typeorm';
 import { ClassEntity } from './class.entity';
+import { CourseService } from 'src/course/course.service';
+import { getUserCls } from 'src/libs/utils';
 
 @Injectable()
 export class ClassService extends BaseService<ClassEntity> {
   constructor(
     @InjectRepository(ClassEntity)
     private repo: Repository<ClassEntity>,
+    private courseService: CourseService,
   ) {
     super(repo);
   }
@@ -28,7 +31,7 @@ export class ClassService extends BaseService<ClassEntity> {
       },
       relations: {
         teacher: true,
-        classToUsers: {
+        classToStudents: {
           user: true,
         },
       },
@@ -40,7 +43,7 @@ export class ClassService extends BaseService<ClassEntity> {
           fullname: true,
           nickname: true,
         },
-        classToUsers: {
+        classToStudents: {
           id: true,
           user: {
             id: true,
@@ -54,5 +57,26 @@ export class ClassService extends BaseService<ClassEntity> {
 
   remove(id: number) {
     return `This action removes a #${id} class`;
+  }
+
+  async getCurrentClassWithStudentId(studentId: number) {
+    const userRequest = getUserCls();
+    const currentCourseId = await this.courseService.getDefaultCourse(
+      userRequest.agencyId,
+    );
+    //tìm trong năm học đó học sinh đó đang học lớp nào
+    const dataClass = await this.repo.findOne({
+      relations: {
+        classToStudents: true,
+      },
+      where: {
+        courseId: currentCourseId,
+        classToStudents: {
+          userId: studentId,
+        },
+      },
+    });
+
+    return dataClass;
   }
 }

@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/base/base.entity';
-import { ClassToUserEntity } from 'src/class-user/class-user.entity';
+import { ClassToUserEntity } from 'src/class-user/class-student.entity';
+
 import { ClassEntity } from 'src/class/class.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -23,8 +24,8 @@ export class UserEntity extends BaseEntity {
   @Column({ default: 0, name: 'agency_id' })
   agencyId?: number;
 
-  @OneToMany(() => ClassToUserEntity, (classToUser) => classToUser.user)
-  public classToUsers: ClassToUserEntity[];
+  @OneToMany(() => ClassToUserEntity, (classToStudent) => classToStudent.user)
+  public classToStudents: ClassToUserEntity[];
 
   @OneToMany(() => ClassEntity, (classs) => classs.teacher)
   public classList: ClassEntity[];

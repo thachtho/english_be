@@ -11,11 +11,11 @@ export class ClassToUserEntity extends BaseEntity {
   @Column({ name: 'user_id' })
   public userId: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.classToUsers)
+  @ManyToOne(() => UserEntity, (user) => user.classToStudents)
   @JoinColumn({ name: 'user_id' })
   public user: UserEntity;
 
-  @ManyToOne(() => ClassEntity, (classs) => classs.classToUsers)
+  @ManyToOne(() => ClassEntity, (classs) => classs.classToStudents)
   @JoinColumn({ name: 'class_id' })
   public class: ClassEntity;
 }

@@ -10,11 +10,24 @@ import { ClassModule } from './class/class.module';
 import { ControlModule } from './control/control.module';
 import { UsersModule } from './users/users.module';
 import { RoleControlModule } from './role_control/role_control.module';
-import { ClassUserModule } from './class-user/class-user.module';
+import { ClassUserModule } from './class-user/class-student.module';
 import { CourseModule } from './course/course.module';
+import { ClsModule } from 'nestjs-cls';
 
 @Module({
   imports: [
+    ClsModule.forRoot({
+      middleware: {
+        // automatically mount the
+        // ClsMiddleware for all routes
+        mount: true,
+        // and use the setup method to
+        // provide default store values.
+        // setup: (cls, req) => {
+        //   cls.set('userId', req.headers['x-user-id']);
+        // },
+      },
+    }),
     TypeOrmModule.forRootAsync({
       useFactory() {
         return {
@@ -26,7 +39,7 @@ import { CourseModule } from './course/course.module';
           database: 'english',
           // entities: [UserEntity],
           synchronize: true,
-          logging: 'all',
+          // logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };

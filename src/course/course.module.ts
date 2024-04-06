@@ -11,5 +11,6 @@ import { IsExitCouseConstraint } from './validators/isExitCourse';
   imports: [TypeOrmModule.forFeature([CourseEntity]), UsersModule],
   controllers: [CourseController],
   providers: [CourseService, ValidatorCouseConstraint, IsExitCouseConstraint],
+  exports: [CourseService],
 })
 export class CourseModule {}

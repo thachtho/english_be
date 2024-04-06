@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClassEntity } from './class.entity';
 import { UsersModule } from 'src/users/users.module';
 import { IsClassAlreadyExistConstraint } from './validators/isClassUnique';
+import { CourseModule } from 'src/course/course.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ClassEntity]), UsersModule],
+  imports: [TypeOrmModule.forFeature([ClassEntity]), UsersModule, CourseModule],
   controllers: [ClassController],
   providers: [ClassService, IsClassAlreadyExistConstraint],
   exports: [ClassService],
