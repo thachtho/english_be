@@ -8,6 +8,7 @@ import { IUserRequest } from 'src/shared/interface';
 import { FindOptionsSelect, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
+import { throwErrorExceptionInput } from 'src/libs/utils';
 
 const passworDefault = '1111';
 const userExcludePassword = [
@@ -71,6 +72,7 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   async getTeachersOrStudents(userId: number, role: number) {
+    throwErrorExceptionInput({ userId, role });
     const user = await this.repo.findOne({
       where: {
         id: userId,
@@ -87,6 +89,7 @@ export class UsersService extends BaseService<UserEntity> {
   }
 
   async getProfile(id: number, req: IUserRequest) {
+    throwErrorExceptionInput(id);
     const user = await this.repo.findOne({
       where: {
         id,

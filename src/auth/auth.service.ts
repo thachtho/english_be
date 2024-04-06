@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { Response } from 'express';
 import { UsersService } from 'src/users/users.service';
+import { throwErrorExceptionInput } from 'src/libs/utils';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,8 @@ export class AuthService {
   }
 
   async signIn(nickname: string, password: string) {
+    throwErrorExceptionInput({ nickname, password });
+
     const user = await this.usersService.findOne({
       where: {
         nickname,

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
+import { throwErrorExceptionInput } from 'src/libs/utils';
 import { Repository } from 'typeorm';
 import { CourseEntity } from './course.entity';
 
@@ -18,6 +19,7 @@ export class CourseService extends BaseService<CourseEntity> {
   }
 
   async getCoursesByAgencyId(agencyId: number) {
+    throwErrorExceptionInput(agencyId);
     return await this.repo.find({
       where: {
         agencyId,
@@ -26,6 +28,7 @@ export class CourseService extends BaseService<CourseEntity> {
   }
 
   async getDefaultCourse(agencyId: number) {
+    throwErrorExceptionInput(agencyId);
     const data = await this.repo.findOne({
       where: {
         agencyId,

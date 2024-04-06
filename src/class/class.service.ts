@@ -4,7 +4,7 @@ import { BaseService } from 'src/base/base.service';
 import { Repository } from 'typeorm';
 import { ClassEntity } from './class.entity';
 import { CourseService } from 'src/course/course.service';
-import { getUserCls } from 'src/libs/utils';
+import { getUserCls, throwErrorExceptionInput } from 'src/libs/utils';
 
 @Injectable()
 export class ClassService extends BaseService<ClassEntity> {
@@ -25,6 +25,7 @@ export class ClassService extends BaseService<ClassEntity> {
   }
 
   getClassDetail(id: number) {
+    throwErrorExceptionInput(id);
     return this.repo.findOne({
       where: {
         id: +id,
