@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRoleControlDto } from './dto/create-role_control.dto';
-import { UpdateRoleControlDto } from './dto/update-role_control.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BaseService } from 'src/base/base.service';
+import { Repository } from 'typeorm';
+import { RoleControlEntity } from './role_control.entity';
 
 @Injectable()
-export class RoleControlService {
-  create(createRoleControlDto: CreateRoleControlDto) {
-    return 'This action adds a new roleControl';
+export class RoleControlService extends BaseService<RoleControlEntity> {
+  constructor(
+    @InjectRepository(RoleControlEntity)
+    private repo: Repository<RoleControlEntity>,
+  ) {
+    super(repo);
   }
 
-  findAll() {
-    return `This action returns all roleControl`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} roleControl`;
-  }
-
-  update(id: number, updateRoleControlDto: UpdateRoleControlDto) {
-    return `This action updates a #${id} roleControl`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} roleControl`;
+  getControls(role: number) {
+    return this.repo.find({
+      where: {
+        roleId: role,
+      },
+      relations: {
+        control: true,
+      },
+    });
   }
 }

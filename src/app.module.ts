@@ -13,6 +13,7 @@ import { RoleControlModule } from './role_control/role_control.module';
 import { ClassUserModule } from './class-user/class-student.module';
 import { CourseModule } from './course/course.module';
 import { ClsModule } from 'nestjs-cls';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { ClsModule } from 'nestjs-cls';
     RoleControlModule,
     ClassUserModule,
     CourseModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RoleControlService } from './role_control.service';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateRoleControlDto } from './dto/create-role_control.dto';
-import { UpdateRoleControlDto } from './dto/update-role_control.dto';
+import { RoleControlService } from './role_control.service';
 
 @Controller('role-control')
 export class RoleControlController {
@@ -14,21 +13,6 @@ export class RoleControlController {
 
   @Get()
   findAll() {
-    return this.roleControlService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roleControlService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleControlDto: UpdateRoleControlDto) {
-    return this.roleControlService.update(+id, updateRoleControlDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roleControlService.remove(+id);
+    return this.roleControlService.getControls(2);
   }
 }
