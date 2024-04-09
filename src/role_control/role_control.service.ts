@@ -19,7 +19,22 @@ export class RoleControlService extends BaseService<RoleControlEntity> {
         roleId: role,
       },
       relations: {
-        control: true,
+        control: {
+          controlChildrens: true,
+        },
+      },
+      select: {
+        id: true,
+        control: {
+          id: true,
+          name: true,
+          path: true,
+          controlChildrens: {
+            id: true,
+            name: true,
+            path: true,
+          },
+        },
       },
     });
   }
