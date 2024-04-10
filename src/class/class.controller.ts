@@ -40,10 +40,20 @@ export class ClassController {
     return this.classService.update(+id, updateClassDto);
   }
 
-  @Get(':id')
+  @Get('studentsInClass/:id')
+  @Auth([ROLE.ADMIN_AGENCY, ROLE.TEACHER])
+  studentsInClass(@Param('id') id: string) {
+    return this.classService.getClassDetail(+id);
+  }
+
+  @Get('/:id')
   @Auth([ROLE.ADMIN_AGENCY, ROLE.TEACHER])
   findOne(@Param('id') id: string) {
-    return this.classService.getClassDetail(+id);
+    return this.classService.findOne({
+      where: {
+        id: +id,
+      },
+    });
   }
 
   @Delete(':id')
