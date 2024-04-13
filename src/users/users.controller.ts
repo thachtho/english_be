@@ -51,7 +51,9 @@ export class UsersController {
   @Get('/students')
   @Auth([ROLE.ADMIN_AGENCY])
   async findStudent(@Req() req: IUserRequest) {
-    return this.usersService.getTeachersOrStudents(req.user.id, ROLE.STUDENT);
+    const data = await this.usersService.getTeachersOrStudents(req.user.id, ROLE.STUDENT);
+    console.log(21111, data);
+    return data;
   }
 
   @Get(':id')

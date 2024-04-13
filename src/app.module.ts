@@ -33,7 +33,7 @@ import { RoleModule } from './role/role.module';
           database: 'english',
           // entities: [UserEntity],
           synchronize: true,
-          logging: 'all',
+          // logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };

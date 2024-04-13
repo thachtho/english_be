@@ -25,7 +25,10 @@ export class AddCreatedByInterceptor implements NestInterceptor {
           id: user?.id,
         },
       });
-      body.createdBy = response?.id;
+      if (method === IMethodRequest.POST) {
+        body.createdBy = response?.id;
+      }
+
       body.agencyId = response?.agencyId;
     }
     return next.handle().pipe();

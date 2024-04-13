@@ -53,6 +53,13 @@ export class ClassService extends BaseService<ClassEntity> {
           },
         },
       },
+      order: {
+        classToStudents: {
+          user: {
+            id: 'DESC',
+          },
+        },
+      },
     });
   }
 

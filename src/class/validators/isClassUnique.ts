@@ -17,6 +17,8 @@ export class IsClassAlreadyExistConstraint
     const data = await this.classService.findOne({
       where: {
         name: args.object['name'].trim(),
+        agencyId: args.object['agencyId'],
+        courseId: args.object['courseId'],
       },
     });
 

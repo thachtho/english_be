@@ -85,6 +85,9 @@ export class UsersService extends BaseService<UserEntity> {
         agencyId: user.agencyId,
       },
       select: userExcludePassword,
+      order: {
+        id: 'DESC',
+      },
     });
   }
 
