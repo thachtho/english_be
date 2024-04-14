@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
+  ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -12,14 +13,18 @@ export class IsUserAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   constructor(private readonly userService: UsersService) {}
-  async validate(nickname: any) {
-    const isUnique = await this.userService.findOne({
+  async validate(nickname: any, args: ValidationArguments) {
+    const data = await this.userService.findOne({
       where: {
         nickname,
       },
     });
 
-    return !isUnique;
+    if (data?.id === args.object['id']) {
+      return true;
+    }
+
+    return !data;
   }
 }
 

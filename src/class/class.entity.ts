@@ -21,6 +21,9 @@ export class ClassEntity extends BaseEntity {
   @Column({ name: 'block_id' })
   blockId: number;
 
+  @Column({ name: 'success', default: false })
+  success: boolean;
+
   @OneToMany(() => ClassToUserEntity, (classToStudent) => classToStudent.class)
   public classToStudents: ClassToUserEntity[];
 

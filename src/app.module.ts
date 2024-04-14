@@ -31,7 +31,6 @@ import { RoleModule } from './role/role.module';
           username: 'root',
           password: '111111',
           database: 'english',
-          // entities: [UserEntity],
           synchronize: true,
           // logging: 'all',
           autoLoadEntities: true,

@@ -25,7 +25,7 @@ export class CreateUserDto {
   @MaxLength(20, {
     message: 'NickName qúa dài!.',
   })
-  @MinLength(3, {
+  @MinLength(2, {
     message: 'NickName qúa ngắn!.',
   })
   @IsUserAlreadyExist({

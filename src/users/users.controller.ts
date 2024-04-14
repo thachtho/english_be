@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Req,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,6 +17,7 @@ import { AddCreatedByInterceptor } from './interceptors/add-createdBy.intercepto
 import { UsersService } from './users.service';
 import { IUserRequest } from 'src/shared/interface';
 import { Auth } from 'src/libs/guard/guard';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 @UseInterceptors(AddCreatedByInterceptor)
@@ -50,10 +52,8 @@ export class UsersController {
 
   @Get('/students')
   @Auth([ROLE.ADMIN_AGENCY])
-  async findStudent(@Req() req: IUserRequest) {
-    const data = await this.usersService.getTeachersOrStudents(req.user.id, ROLE.STUDENT);
-    console.log(21111, data);
-    return data;
+  findStudent(@Req() req: IUserRequest) {
+    return this.usersService.getTeachersOrStudents(req.user.id, ROLE.STUDENT);
   }
 
   @Get(':id')
@@ -72,7 +72,14 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Auth([ROLE.ADMIN_AGENCY])
   remove(@Param('id') id: string) {
     return this.usersService.softDelete(+id);
+  }
+
+  @Put(':id')
+  @Auth([ROLE.ADMIN_AGENCY])
+  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(+id, body);
   }
 }
