@@ -30,7 +30,7 @@ import { RoleModule } from './role/role.module';
           port: 3307,
           username: 'root',
           password: '111111',
-          database: 'english',
+          database: 'hoctienganh',
           synchronize: true,
           // logging: 'all',
           autoLoadEntities: true,
