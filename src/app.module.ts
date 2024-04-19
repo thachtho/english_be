@@ -26,13 +26,13 @@ import { RoleModule } from './role/role.module';
       useFactory() {
         return {
           type: 'mysql',
-          host: '103.151.238.40',
-          port: 3307,
+          host: 'localhost',
+          port: 3306,
           username: 'root',
           password: '111111',
-          database: 'hoctienganh',
+          database: 'english',
           synchronize: true,
-          // logging: 'all',
+          logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };
