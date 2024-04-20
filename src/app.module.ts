@@ -27,7 +27,7 @@ import { RoleModule } from './role/role.module';
         return {
           type: 'mysql',
           host: 'localhost',
-          port: 3306,
+          port: 3307,
           username: 'root',
           password: '111111',
           database: 'english',
