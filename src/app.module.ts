@@ -27,12 +27,12 @@ import { RoleModule } from './role/role.module';
         return {
           type: 'mysql',
           host: 'localhost',
-          port: 3307,
+          port: 3306,
           username: 'root',
           password: '111111',
           database: 'english',
           synchronize: true,
-          logging: 'all',
+          // logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };

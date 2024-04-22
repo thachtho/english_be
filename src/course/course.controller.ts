@@ -60,4 +60,10 @@ export class CourseController {
   remove(@Param('id') id: string) {
     return this.courseService.softDelete(+id);
   }
+
+  @Get('teacher/class-list')
+  @Auth([ROLE.TEACHER])
+  getAllClassWithTeacher() {
+    return this.courseService.getAllClassWithTeacher();
+  }
 }

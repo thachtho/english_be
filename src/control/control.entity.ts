@@ -11,7 +11,7 @@ export class ControlEntity extends BaseEntity {
   name: string;
 
   @Column({ name: 'parent_id', nullable: true })
-  parentId: string;
+  parentId?: string;
 
   @OneToMany(() => RoleControlEntity, (roleControl) => roleControl.control)
   public roleControls: RoleControlEntity[];

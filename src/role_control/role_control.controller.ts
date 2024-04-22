@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { CreateRoleControlDto } from './dto/create-role_control.dto';
 import { RoleControlService } from './role_control.service';
+import { IUserRequest } from 'src/shared/interface';
 
 @Controller('role-control')
 export class RoleControlController {
@@ -12,7 +13,7 @@ export class RoleControlController {
   }
 
   @Get()
-  findAll() {
-    return this.roleControlService.getControls(2);
+  findAll(@Req() req: IUserRequest) {
+    return this.roleControlService.getControls(req.user.role);
   }
 }

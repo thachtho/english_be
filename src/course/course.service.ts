@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
-import { throwErrorExceptionInput } from 'src/libs/utils';
+import { getUserCls, throwErrorExceptionInput } from 'src/libs/utils';
 import { Repository } from 'typeorm';
 import { CourseEntity } from './course.entity';
 
@@ -40,5 +40,38 @@ export class CourseService extends BaseService<CourseEntity> {
     });
 
     return data?.id;
+  }
+
+  getAllClassWithTeacher() {
+    const userRequest = getUserCls();
+
+    return this.repo.find({
+      relations: {
+        classList: true,
+      },
+      where: {
+        agencyId: userRequest.agencyId,
+        classList: {
+          teacherId: userRequest.id,
+        },
+      },
+      order: {
+        id: 'DESC',
+        classList: {
+          blockId: 'DESC',
+          name: 'DESC',
+        },
+      },
+      select: {
+        id: true,
+        from: true,
+        to: true,
+        classList: {
+          name: true,
+          id: true,
+          blockId: true,
+        },
+      },
+    });
   }
 }
