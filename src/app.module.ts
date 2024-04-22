@@ -14,6 +14,8 @@ import { ClassUserModule } from './class-user/class-student.module';
 import { CourseModule } from './course/course.module';
 import { ClsModule } from 'nestjs-cls';
 import { RoleModule } from './role/role.module';
+import { UnitModule } from './unit/unit.module';
+import { LessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [
@@ -32,7 +34,7 @@ import { RoleModule } from './role/role.module';
           password: '111111',
           database: 'english',
           synchronize: true,
-          // logging: 'all',
+          logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };
@@ -47,6 +49,8 @@ import { RoleModule } from './role/role.module';
     ClassUserModule,
     CourseModule,
     RoleModule,
+    UnitModule,
+    LessonModule,
   ],
   controllers: [AppController],
   providers: [
