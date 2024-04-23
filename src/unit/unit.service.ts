@@ -11,13 +11,17 @@ export class UnitService {
   ) {}
 
   findAll() {
+    return this.repo.find();
+  }
+
+  findAllUnitLessons() {
     return this.repo.find({
       relations: {
-        lesson: true,
+        lessons: true,
       },
       order: {
         id: 'DESC',
-        lesson: {
+        lessons: {
           id: 'DESC',
         },
       },
@@ -25,7 +29,7 @@ export class UnitService {
         id: true,
         name: true,
         blockId: true,
-        lesson: {
+        lessons: {
           id: true,
           name: true,
         },

@@ -19,7 +19,7 @@ export class LessonEntity extends BaseEntity {
   @Column({ name: 'unit_id' })
   unitId: number;
 
-  @ManyToOne(() => UnitEntity, (unit) => unit.lesson)
+  @ManyToOne(() => UnitEntity, (unit) => unit.lessons)
   @JoinColumn({ name: 'unit_id' })
   public unit: UnitEntity;
 }

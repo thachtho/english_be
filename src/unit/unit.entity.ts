@@ -14,5 +14,5 @@ export class UnitEntity extends BaseEntity {
   blockId: number;
 
   @OneToMany(() => LessonEntity, (lesson) => lesson.unit)
-  public lesson: LessonEntity[];
+  public lessons: LessonEntity[];
 }
