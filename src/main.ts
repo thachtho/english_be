@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
+  app.setGlobalPrefix('api');
   app.enableCors({
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
