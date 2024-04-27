@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgencyModule } from './agency/agency.module';
 import { AppController } from './app.controller';
@@ -17,6 +17,8 @@ import { RoleModule } from './role/role.module';
 import { UnitModule } from './unit/unit.module';
 import { LessonModule } from './lesson/lesson.module';
 import { StudyProgramModule } from './study-program/study-program.module';
+import { VariableModule } from './variable/variable.module';
+import { AddCreatedByInterceptor } from './users/interceptors/add-createdBy.interceptor';
 
 @Module({
   imports: [
@@ -29,8 +31,8 @@ import { StudyProgramModule } from './study-program/study-program.module';
       useFactory() {
         return {
           type: 'mysql',
-          host: '103.214.10.223',
-          port: 3307,
+          host: 'localhost',
+          port: 3306,
           username: 'root',
           password: '111111',
           database: 'english',
@@ -53,6 +55,7 @@ import { StudyProgramModule } from './study-program/study-program.module';
     UnitModule,
     LessonModule,
     StudyProgramModule,
+    VariableModule,
   ],
   controllers: [AppController],
   providers: [
@@ -60,6 +63,10 @@ import { StudyProgramModule } from './study-program/study-program.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AddCreatedByInterceptor,
     },
   ],
 })

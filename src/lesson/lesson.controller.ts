@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LessonService } from './lesson.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { LessonService } from './lesson.service';
 
 @Controller('lesson')
 export class LessonController {
@@ -12,23 +11,22 @@ export class LessonController {
     return this.lessonService.create(createLessonDto);
   }
 
-  @Get()
-  findAll() {
-    return this.lessonService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.lessonService.findOne(+id);
+    return this.lessonService.findOne({
+      where: {
+        id: +id,
+      },
+    });
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
-    return this.lessonService.update(+id, updateLessonDto);
+  @Get('lesson-by-unitId/:id')
+  getLessonByUnitId(@Param('id') unitId: number) {
+    return this.lessonService.getLessonByUnitId(+unitId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lessonService.remove(+id);
+  @Get('/get-variables/:id')
+  getVariableByLessonId(@Param('id') lessonId: string) {
+    return this.lessonService.getVariableByLessonId(+lessonId);
   }
 }

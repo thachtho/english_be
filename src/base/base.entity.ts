@@ -10,10 +10,10 @@ export class BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ name: 'created_by', default: 0 })
+  @Column({ name: 'created_by', nullable: true })
   createdBy?: number;
 
-  @DeleteDateColumn({ name: 'delete_at' })
+  @DeleteDateColumn({ name: 'delete_at', nullable: true })
   deletedAt?: Date;
 
   @CreateDateColumn({ name: 'created_at' }) createdAt?: Date;

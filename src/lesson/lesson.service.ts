@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLessonDto } from './dto/create-lesson.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BaseService } from 'src/base/base.service';
+import { throwErrorExceptionInput } from 'src/libs/utils';
+import { Repository } from 'typeorm';
+import { LessonEntity } from './lesson.entity';
 
 @Injectable()
-export class LessonService {
-  create(createLessonDto: CreateLessonDto) {
-    return 'This action adds a new lesson';
-  }
-
-  findAll() {
-    return `This action returns all lesson`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} lesson`;
-  }
-
-  update(id: number, updateLessonDto: UpdateLessonDto) {
-    return `This action updates a #${id} lesson`;
+export class LessonService extends BaseService<LessonEntity> {
+  constructor(
+    @InjectRepository(LessonEntity)
+    private repo: Repository<LessonEntity>,
+  ) {
+    super(repo);
   }
 
   remove(id: number) {
     return `This action removes a #${id} lesson`;
+  }
+
+  getLessonByUnitId(unitId: number) {
+    throwErrorExceptionInput(unitId);
+    return this.repo.find({
+      where: {
+        unitId,
+      },
+    });
+  }
+
+  getVariableByLessonId(lessonId: number) {
+    throwErrorExceptionInput(lessonId);
+
+    return this.repo.findOne({
+      where: {
+        id: lessonId,
+      },
+      relations: {
+        variables: true,
+      },
+    });
   }
 }

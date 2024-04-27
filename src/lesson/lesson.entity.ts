@@ -1,18 +1,10 @@
 import { BaseEntity } from 'src/base/base.entity';
 import { UnitEntity } from 'src/unit/unit.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { VariableEntity } from 'src/variable/variable.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'lesson' })
 export class LessonEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   name: string;
 
@@ -22,4 +14,7 @@ export class LessonEntity extends BaseEntity {
   @ManyToOne(() => UnitEntity, (unit) => unit.lessons)
   @JoinColumn({ name: 'unit_id' })
   public unit: UnitEntity;
+
+  @OneToMany(() => VariableEntity, (variable) => variable.lesson)
+  public variables: VariableEntity[];
 }

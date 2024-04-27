@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateStudyProgramDto } from './dto/create-study-program.dto';
 import { StudyProgramService } from './study-program.service';
 
@@ -16,10 +16,14 @@ export class StudyProgramController {
     return this.studyProgramService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.studyProgramService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.studyProgramService.findOne({
+      where: {
+        id: +id,
+      },
+    });
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateStudyProgramDto: UpdateStudyProgramDto) {

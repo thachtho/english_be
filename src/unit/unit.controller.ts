@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UnitService } from './unit.service';
 import { Auth } from 'src/libs/guard/guard';
 import { ROLE } from 'src/shared/enum';
@@ -12,9 +12,9 @@ export class UnitController {
     return this.unitService.findAll();
   }
 
-  @Get('/unit-lesson')
+  @Get('/unit-by-studyProgramId/:id')
   @Auth([ROLE.TEACHER])
-  findAllUnitLessons() {
-    return this.unitService.findAllUnitLessons();
+  findAllUnitLessons(@Param('id') studyProgramId: string) {
+    return this.unitService.findByStudyProgramId(+studyProgramId);
   }
 }
