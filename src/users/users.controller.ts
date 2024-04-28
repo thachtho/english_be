@@ -9,18 +9,15 @@ import {
   Post,
   Put,
   Req,
-  UseInterceptors,
 } from '@nestjs/common';
-import { ROLE } from 'src/shared/enum';
-import { CreateUserDto } from './dto/create-user.dto';
-import { AddCreatedByInterceptor } from './interceptors/add-createdBy.interceptor';
-import { UsersService } from './users.service';
-import { IUserRequest } from 'src/shared/interface';
 import { Auth } from 'src/libs/guard/guard';
+import { ROLE } from 'src/shared/enum';
+import { IUserRequest } from 'src/shared/interface';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
-@UseInterceptors(AddCreatedByInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

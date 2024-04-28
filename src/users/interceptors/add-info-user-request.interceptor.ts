@@ -8,7 +8,7 @@ import { UsersService } from '../users.service';
 import { IMethodRequest } from 'src/shared/enum';
 
 @Injectable()
-export class AddCreatedByInterceptor implements NestInterceptor {
+export class AddInfoUserRequestInterceptor implements NestInterceptor {
   constructor(private userService: UsersService) {}
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
@@ -27,9 +27,8 @@ export class AddCreatedByInterceptor implements NestInterceptor {
       });
       if (method === IMethodRequest.POST) {
         body.createdBy = response?.id;
+        body.agencyId = response?.agencyId;
       }
-
-      body.agencyId = response?.agencyId;
     }
     return next.handle().pipe();
   }

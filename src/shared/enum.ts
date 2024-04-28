@@ -11,5 +11,4 @@ export enum ROLE {
   ADMIN_AGENCY = 2,
   TEACHER = 3,
   STUDENT = 4,
-  ME = 5,
 }

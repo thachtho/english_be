@@ -7,18 +7,15 @@ import {
   Patch,
   Post,
   Req,
-  UseInterceptors,
 } from '@nestjs/common';
 import { Auth } from 'src/libs/guard/guard';
 import { ROLE } from 'src/shared/enum';
 import { IUserRequest } from 'src/shared/interface';
-import { AddCreatedByInterceptor } from 'src/users/interceptors/add-createdBy.interceptor';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Controller('course')
-@UseInterceptors(AddCreatedByInterceptor)
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
