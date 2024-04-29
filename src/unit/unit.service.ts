@@ -3,13 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UnitEntity } from './unit.entity';
 import { throwErrorExceptionInput } from 'src/libs/utils';
+import { BaseService } from 'src/base/base.service';
 
 @Injectable()
-export class UnitService {
+export class UnitService extends BaseService<UnitEntity> {
   constructor(
     @InjectRepository(UnitEntity)
     private repo: Repository<UnitEntity>,
-  ) {}
+  ) {
+    super(repo);
+  }
 
   findAll() {
     return this.repo.find();
