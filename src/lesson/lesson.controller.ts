@@ -19,11 +19,13 @@ export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
   @Post()
+  @Auth([ROLE.TEACHER])
   create(@Body() createLessonDto: CreateLessonDto) {
     return this.lessonService.create(createLessonDto);
   }
 
   @Get(':id')
+  @Auth([ROLE.TEACHER])
   findOne(@Param('id') id: string) {
     return this.lessonService.findOne({
       where: {
@@ -33,12 +35,14 @@ export class LessonController {
   }
 
   @Get('lesson-by-unitId/:id')
+  @Auth([ROLE.TEACHER])
   getLessonByUnitId(@Param('id') unitId: number) {
     return this.lessonService.getLessonByUnitId(+unitId);
   }
 
-  @Get('/get-variables/:id')
-  getVariableByLessonId(@Param('id') lessonId: string) {
+  @Get('/get-variables/:lessonId')
+  @Auth([ROLE.TEACHER])
+  getVariableByLessonId(@Param('lessonId') lessonId: string) {
     return this.lessonService.getVariableByLessonId(+lessonId);
   }
 

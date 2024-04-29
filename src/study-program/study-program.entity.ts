@@ -4,10 +4,10 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'study-program' })
 export class StudyProgramEntity extends BaseEntity {
-  @Column({ name: 'role_id' })
+  @Column()
   name: string;
 
-  @Column({ name: 'control_id' })
+  @Column({ name: 'block_id' })
   blockId: number;
 
   @OneToMany(() => UnitEntity, (unit) => unit.studyProgram)

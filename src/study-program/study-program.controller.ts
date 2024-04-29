@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { CreateStudyProgramDto } from './dto/create-study-program.dto';
 import { StudyProgramService } from './study-program.service';
+import { Auth } from 'src/libs/guard/guard';
+import { ROLE } from 'src/shared/enum';
 
 @Controller('study-program')
 export class StudyProgramController {
@@ -23,6 +32,12 @@ export class StudyProgramController {
         id: +id,
       },
     });
+  }
+
+  @Get('get-studyProgram-by-blockId/:blockId')
+  @Auth([ROLE.TEACHER])
+  getStudyProgramByBlockId(@Param('blockId') blockId: ParseIntPipe) {
+    return this.studyProgramService.getStudyProgramByBlockId(+blockId);
   }
 
   // @Patch(':id')
