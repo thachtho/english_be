@@ -30,7 +30,7 @@ export class AuthController {
     );
 
     res.setHeader('Set-Cookie', [
-      `token=${access_token}; HttpOnly; Path=/; SameSite=None;`,
+      `token=${access_token}; HttpOnly; Path=/; SameSite=None; Secure`,
     ]);
 
     return res.send({ refresh_token });
