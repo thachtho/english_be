@@ -31,8 +31,8 @@ import { VariableModule } from './variable/variable.module';
       useFactory() {
         return {
           type: 'mysql',
-          host: 'localhost',
-          port: 3306,
+          host: '103.214.10.223',
+          port: 3307,
           username: 'root',
           password: '111111',
           database: 'english',
