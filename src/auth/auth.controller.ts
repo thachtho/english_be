@@ -28,11 +28,7 @@ export class AuthController {
       signInDto.nickname,
       signInDto.password,
     );
-
-    res.setHeader('Set-Cookie', [
-      `token=${access_token}; HttpOnly; Path=/; SameSite=None`,
-    ]);
-
+    res.setHeader('Set-Cookie', [`token=${access_token}; HttpOnly; Path=/`]);
     return res.send({ refresh_token });
   }
 
