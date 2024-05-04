@@ -20,6 +20,9 @@ export class ClassManagerLessonEntity {
   @Column({ name: 'lesson_id' })
   public lessonId: number;
 
+  @Column({ name: 'active', default: false })
+  public active: boolean;
+
   @ManyToOne(
     () => ClassManagerEntity,
     (classManager) => classManager.classManagerLessons,

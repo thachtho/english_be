@@ -22,16 +22,19 @@ export class ClassManagerController {
   }
 
   @Get()
+  @Auth([ROLE.TEACHER])
   findAll() {
     return this.classManagerService.findAll();
   }
 
   @Get('get-unit-lesson-class/:id')
+  @Auth([ROLE.TEACHER])
   getUnitLessonInClass(@Param('id') classId: ParseIntPipe) {
     return this.classManagerService.getUnitLessonInClass(+classId);
   }
 
   @Get(':id')
+  @Auth([ROLE.TEACHER])
   getOne(@Param('id') id: ParseIntPipe) {
     return this.classManagerService.findOne({
       where: {

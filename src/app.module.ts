@@ -39,7 +39,7 @@ import { ClassManagerLessonModule } from './class-manager-lesson/class-manager-l
           password: '111111',
           database: 'english',
           synchronize: true,
-          // logging: 'all',
+          logging: 'all',
           autoLoadEntities: true,
           options: { encrypt: false },
         };

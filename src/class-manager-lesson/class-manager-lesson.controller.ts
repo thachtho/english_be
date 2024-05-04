@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import { Auth } from 'src/libs/guard/guard';
+import { ROLE } from 'src/shared/enum';
 import { ClassManagerLessonService } from './class-manager-lesson.service';
 import { CreateClassManagerLessonDto } from './dto/create-class-manager-lesson.dto';
-import { UpdateClassManagerLessonDto } from './dto/update-class-manager-lesson.dto';
 
 @Controller('class-manager-lesson')
 export class ClassManagerLessonController {
-  constructor(private readonly classManagerLessonService: ClassManagerLessonService) {}
+  constructor(
+    private readonly classManagerLessonService: ClassManagerLessonService,
+  ) {}
 
   @Post()
-  create(@Body() createClassManagerLessonDto: CreateClassManagerLessonDto) {
-    return this.classManagerLessonService.create(createClassManagerLessonDto);
+  @Auth([ROLE.TEACHER])
+  createClassManagerLesson(
+    @Body() createClassManagerLessonDto: CreateClassManagerLessonDto,
+  ) {
+    return this.classManagerLessonService.createClassManagerLesson(
+      createClassManagerLessonDto,
+    );
   }
 
-  @Get()
-  findAll() {
-    return this.classManagerLessonService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.classManagerLessonService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClassManagerLessonDto: UpdateClassManagerLessonDto) {
-    return this.classManagerLessonService.update(+id, updateClassManagerLessonDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.classManagerLessonService.remove(+id);
+  @Put('active/:id')
+  @Auth([ROLE.TEACHER])
+  active(
+    @Param('id') id: string,
+    @Body() body: { id: number; active: boolean },
+  ) {
+    return this.classManagerLessonService.update(+id, body);
   }
 }

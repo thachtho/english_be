@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClassManagerLessonDto } from './dto/create-class-manager-lesson.dto';
-import { UpdateClassManagerLessonDto } from './dto/update-class-manager-lesson.dto';
+import { BaseService } from 'src/base/base.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ClassManagerLessonEntity } from './class-manager-lesson.entity';
 
 @Injectable()
-export class ClassManagerLessonService {
-  create(createClassManagerLessonDto: CreateClassManagerLessonDto) {
-    return 'This action adds a new classManagerLesson';
+export class ClassManagerLessonService extends BaseService<ClassManagerLessonEntity> {
+  constructor(
+    @InjectRepository(ClassManagerLessonEntity)
+    private repo: Repository<ClassManagerLessonEntity>,
+  ) {
+    super(repo);
   }
+  async createClassManagerLesson(
+    createClassManagerLessonDto: CreateClassManagerLessonDto,
+  ) {
+    const dataCheck = await this.repo.findOne({
+      where: {
+        classManagerId: createClassManagerLessonDto.classManagerId,
+        lessonId: createClassManagerLessonDto.lessonId,
+      },
+    });
 
-  findAll() {
-    return `This action returns all classManagerLesson`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} classManagerLesson`;
-  }
-
-  update(id: number, updateClassManagerLessonDto: UpdateClassManagerLessonDto) {
-    return `This action updates a #${id} classManagerLesson`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} classManagerLesson`;
+    if (!dataCheck) {
+      return this.repo.save(createClassManagerLessonDto);
+    }
   }
 }

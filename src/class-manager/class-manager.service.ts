@@ -57,6 +57,7 @@ export class ClassManagerService extends BaseService<ClassManagerEntity> {
         classManagerLessons: {
           id: true,
           lessonId: true,
+          active: true,
           lesson: {
             id: true,
             name: true,
