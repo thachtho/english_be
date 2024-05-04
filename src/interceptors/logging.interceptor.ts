@@ -25,7 +25,7 @@ export class LoggingInterceptor implements NestInterceptor {
           query: request.query ?? null,
           user: request.user ?? null,
         };
-        console.log(input);
+        // console.log(input);
       }),
     );
   }

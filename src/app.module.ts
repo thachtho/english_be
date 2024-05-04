@@ -19,6 +19,8 @@ import { UnitModule } from './unit/unit.module';
 import { AddInfoUserRequestInterceptor } from './users/interceptors/add-info-user-request.interceptor';
 import { UsersModule } from './users/users.module';
 import { VariableModule } from './variable/variable.module';
+import { ClassManagerModule } from './class-manager/class-manager.module';
+import { ClassManagerLessonModule } from './class-manager-lesson/class-manager-lesson.module';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { VariableModule } from './variable/variable.module';
     LessonModule,
     StudyProgramModule,
     VariableModule,
+    ClassManagerModule,
+    ClassManagerLessonModule,
   ],
   controllers: [AppController],
   providers: [

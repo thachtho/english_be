@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/base/base.entity';
+import { ClassManagerEntity } from 'src/class-manager/class-manager.entity';
 import { ClassToUserEntity } from 'src/class-user/class-student.entity';
 import { CourseEntity } from 'src/course/course.entity';
 import { UserEntity } from 'src/users/user.entity';
@@ -34,4 +35,7 @@ export class ClassEntity extends BaseEntity {
   @ManyToOne(() => CourseEntity, (course) => course.classList)
   @JoinColumn({ name: 'course_id' })
   public course: CourseEntity;
+
+  @OneToMany(() => ClassManagerEntity, (classManager) => classManager.class)
+  public classManagers: ClassManagerEntity[];
 }
