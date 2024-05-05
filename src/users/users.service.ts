@@ -109,12 +109,14 @@ export class UsersService extends BaseService<UserEntity> {
 
   async getRole() {
     const userLogin = getUserCls();
+
     const user = await this.repo.findOne({
       where: {
         id: userLogin.id,
       },
       select: userExcludePassword,
     });
+    console.log(12333, user)
 
     return user.role;
   }
