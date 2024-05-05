@@ -22,6 +22,8 @@ export class ClassManagerLessonService extends BaseService<ClassManagerLessonEnt
         lessonId: createClassManagerLessonDto.lessonId,
       },
     });
+    console.log(111111111, createClassManagerLessonDto)
+    console.log(111111111, dataCheck)
 
     if (!dataCheck) {
       return this.repo.save(createClassManagerLessonDto);

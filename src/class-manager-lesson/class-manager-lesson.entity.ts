@@ -5,7 +5,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -30,7 +29,7 @@ export class ClassManagerLessonEntity {
   @JoinColumn({ name: 'class_manager_id' })
   public classManager: ClassManagerEntity;
 
-  @OneToOne(() => LessonEntity)
+  @ManyToOne(() => LessonEntity)
   @JoinColumn({ name: 'lesson_id' })
   lesson: LessonEntity;
 }
