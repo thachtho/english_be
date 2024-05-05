@@ -113,8 +113,8 @@ export class UsersService extends BaseService<UserEntity> {
       where: {
         id: userLogin.id,
       },
+      select: userExcludePassword,
     });
-    console.log(22222, user)
 
     return user.role;
   }
