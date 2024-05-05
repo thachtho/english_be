@@ -17,6 +17,7 @@ export class ClassService extends BaseService<ClassEntity> {
   }
 
   getAllByCourseId(courseId: number) {
+    throwErrorExceptionInput(courseId);
     return this.repo.find({
       where: {
         courseId,
@@ -63,11 +64,8 @@ export class ClassService extends BaseService<ClassEntity> {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} class`;
-  }
-
   async getCurrentClassWithStudentId(studentId: number) {
+    throwErrorExceptionInput(studentId);
     const userRequest = getUserCls();
     const currentCourseId = await this.courseService.getDefaultCourse(
       userRequest.agencyId,

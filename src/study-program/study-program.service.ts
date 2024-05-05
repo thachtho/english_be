@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
 import { Repository } from 'typeorm';
 import { StudyProgramEntity } from './study-program.entity';
-import { getUserCls } from 'src/libs/utils';
+import { getUserCls, throwErrorExceptionInput } from 'src/libs/utils';
 
 @Injectable()
 export class StudyProgramService extends BaseService<StudyProgramEntity> {
@@ -15,6 +15,7 @@ export class StudyProgramService extends BaseService<StudyProgramEntity> {
   }
 
   getStudyProgramByBlockId(blockId: number) {
+    throwErrorExceptionInput(blockId);
     const userLogin = getUserCls();
 
     return this.repo.find({

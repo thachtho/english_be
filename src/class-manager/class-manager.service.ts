@@ -4,20 +4,18 @@ import { BaseService } from 'src/base/base.service';
 import { Repository } from 'typeorm';
 import { ClassManagerEntity } from './class-manager.entity';
 import { CreateClassManagerDto } from './dto/create-class-manager.dto';
-import { ClassService } from 'src/class/class.service';
+import { throwErrorExceptionInput } from 'src/libs/utils';
 
 @Injectable()
 export class ClassManagerService extends BaseService<ClassManagerEntity> {
   constructor(
     @InjectRepository(ClassManagerEntity)
     private repo: Repository<ClassManagerEntity>,
-    private classService: ClassService,
   ) {
     super(repo);
   }
 
   async createClassManager(createClassManagerDto: CreateClassManagerDto) {
-    console.log(222222, createClassManagerDto);
     const dataCheck = await this.repo.findOne({
       where: {
         classId: createClassManagerDto.classId,
@@ -31,6 +29,7 @@ export class ClassManagerService extends BaseService<ClassManagerEntity> {
   }
 
   async getUnitLessonInClass(classId: number) {
+    throwErrorExceptionInput(classId);
     return await this.repo.find({
       where: {
         classId,

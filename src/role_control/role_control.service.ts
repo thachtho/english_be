@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base/base.service';
 import { Repository } from 'typeorm';
 import { RoleControlEntity } from './role_control.entity';
+import { throwErrorExceptionInput } from 'src/libs/utils';
 
 @Injectable()
 export class RoleControlService extends BaseService<RoleControlEntity> {
@@ -14,6 +15,7 @@ export class RoleControlService extends BaseService<RoleControlEntity> {
   }
 
   getControls(role: number) {
+    throwErrorExceptionInput(role);
     return this.repo.find({
       where: {
         roleId: role,
