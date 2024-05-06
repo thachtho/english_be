@@ -116,7 +116,6 @@ export class UsersService extends BaseService<UserEntity> {
       },
       select: userExcludePassword,
     });
-    console.log(12333, user)
 
     return user.role;
   }

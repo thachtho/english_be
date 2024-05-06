@@ -1,4 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { Auth } from 'src/libs/guard/guard';
 import { ROLE } from 'src/shared/enum';
 import { ClassUserService } from './class-student.service';
@@ -19,5 +26,11 @@ export class ClassUserController {
   @Auth([ROLE.ADMIN_AGENCY])
   removeStudentInClass(@Body() body: RemoveStudentDto) {
     return this.classUserService.removeStudentInClass(body);
+  }
+
+  @Get('get-classList')
+  @Auth([ROLE.STUDENT])
+  getAllClassWithStudentId() {
+    return this.classUserService.getAllClassWithStudentId();
   }
 }
