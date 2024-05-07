@@ -44,7 +44,6 @@ export class ClassController {
   }
 
   @Get('/:id')
-  @Auth([ROLE.ADMIN_AGENCY, ROLE.TEACHER])
   findOne(@Param('id') id: string) {
     return this.classService.findOne({
       where: {

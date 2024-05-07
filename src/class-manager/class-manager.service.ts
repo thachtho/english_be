@@ -49,6 +49,7 @@ export class ClassManagerService extends BaseService<ClassManagerEntity> {
       select: {
         id: true,
         unitId: true,
+        classId: true,
         unit: {
           id: true,
           name: true,

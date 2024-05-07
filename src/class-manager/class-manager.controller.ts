@@ -28,7 +28,7 @@ export class ClassManagerController {
   }
 
   @Get('get-unit-lesson-class/:id')
-  @Auth([ROLE.TEACHER])
+  @Auth([ROLE.TEACHER, ROLE.STUDENT])
   getUnitLessonInClass(@Param('id') classId: ParseIntPipe) {
     return this.classManagerService.getUnitLessonInClass(+classId);
   }
