@@ -4,12 +4,15 @@ import { BaseService } from 'src/base/base.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClassManagerLessonEntity } from './class-manager-lesson.entity';
+import { getUserCls } from 'src/libs/utils';
+import { ClassUserService } from 'src/class-user/class-student.service';
 
 @Injectable()
 export class ClassManagerLessonService extends BaseService<ClassManagerLessonEntity> {
   constructor(
     @InjectRepository(ClassManagerLessonEntity)
     private repo: Repository<ClassManagerLessonEntity>,
+    private readonly classUserService: ClassUserService,
   ) {
     super(repo);
   }
@@ -22,11 +25,36 @@ export class ClassManagerLessonService extends BaseService<ClassManagerLessonEnt
         lessonId: createClassManagerLessonDto.lessonId,
       },
     });
-    console.log(111111111, createClassManagerLessonDto)
-    console.log(111111111, dataCheck)
 
     if (!dataCheck) {
       return this.repo.save(createClassManagerLessonDto);
     }
+  }
+
+  async checkPermisson(id: number) {
+    const userLogin = getUserCls();
+    const managerLesson = await this.repo.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        classManager: true,
+      },
+    });
+
+    const classId = managerLesson.classManager.classId;
+    const classUser = await this.classUserService.findOne({
+      where: {
+        userId: userLogin?.id,
+        classId: classId,
+      },
+      select: ['id'],
+    });
+
+    if (classUser) {
+      return true;
+    }
+
+    return false;
   }
 }

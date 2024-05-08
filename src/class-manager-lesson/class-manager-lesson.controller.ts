@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Auth } from 'src/libs/guard/guard';
 import { ROLE } from 'src/shared/enum';
 import { ClassManagerLessonService } from './class-manager-lesson.service';
@@ -27,5 +35,13 @@ export class ClassManagerLessonController {
     @Body() body: { id: number; active: boolean },
   ) {
     return this.classManagerLessonService.update(+id, body);
+  }
+
+  @Get('check-permisson/:id')
+  @Auth([ROLE.STUDENT])
+  checkPermisson(@Param('id') id: ParseIntPipe) {
+    return this.classManagerLessonService.checkPermisson(+id);
+
+    return true;
   }
 }
