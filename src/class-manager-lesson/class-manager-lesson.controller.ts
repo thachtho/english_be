@@ -44,4 +44,14 @@ export class ClassManagerLessonController {
 
     return true;
   }
+
+  @Get(':id')
+  @Auth([ROLE.STUDENT])
+  getOne(@Param('id') id: ParseIntPipe) {
+    return this.classManagerLessonService.findOne({
+      where: {
+        id: +id,
+      },
+    });
+  }
 }

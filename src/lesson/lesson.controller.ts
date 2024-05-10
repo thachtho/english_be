@@ -41,7 +41,7 @@ export class LessonController {
   }
 
   @Get('/get-variables/:lessonId')
-  @Auth([ROLE.TEACHER])
+  @Auth([ROLE.TEACHER, ROLE.STUDENT])
   getVariableByLessonId(@Param('lessonId') lessonId: string) {
     return this.lessonService.getVariableByLessonId(+lessonId);
   }
