@@ -22,6 +22,9 @@ export class ClassManagerLessonEntity {
   @Column({ name: 'active', default: false })
   public active: boolean;
 
+  @Column({ name: 'number_repeat', default: 0 })
+  public numberRepeat: number;
+
   @ManyToOne(
     () => ClassManagerEntity,
     (classManager) => classManager.classManagerLessons,
