@@ -12,8 +12,8 @@ export class BaseService<T> {
     return this.repository.findOne(options);
   }
 
-  async create(data: DeepPartial<T>) {
-    return await this.repository.save(data);
+  async create(data: DeepPartial<T> | DeepPartial<T[]>) {
+    return await this.repository.save(data as any);
   }
 
   async update(id: number, partialEntity: QueryDeepPartialEntity<T>) {

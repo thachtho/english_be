@@ -41,8 +41,11 @@ export class ClassManagerLessonService extends BaseService<ClassManagerLessonEnt
         classManager: true,
       },
     });
+    const classId = managerLesson?.classManager?.classId;
 
-    const classId = managerLesson.classManager.classId;
+    if (!classId || !userLogin?.id) {
+      return false;
+    }
     const classUser = await this.classUserService.findOne({
       where: {
         userId: userLogin?.id,

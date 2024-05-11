@@ -12,5 +12,6 @@ import { ClassUserModule } from 'src/class-user/class-student.module';
   ],
   controllers: [ClassManagerLessonController],
   providers: [ClassManagerLessonService],
+  exports: [ClassManagerLessonService],
 })
 export class ClassManagerLessonModule {}

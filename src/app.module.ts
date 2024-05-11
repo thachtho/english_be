@@ -21,6 +21,8 @@ import { UsersModule } from './users/users.module';
 import { VariableModule } from './variable/variable.module';
 import { ClassManagerModule } from './class-manager/class-manager.module';
 import { ClassManagerLessonModule } from './class-manager-lesson/class-manager-lesson.module';
+import { ExerciseModule } from './exercise/exercise.module';
+import { ExerciseVariableModule } from './exercise-variable/exercise-variable.module';
 
 @Module({
   imports: [
@@ -60,6 +62,8 @@ import { ClassManagerLessonModule } from './class-manager-lesson/class-manager-l
     VariableModule,
     ClassManagerModule,
     ClassManagerLessonModule,
+    ExerciseModule,
+    ExerciseVariableModule,
   ],
   controllers: [AppController],
   providers: [
