@@ -22,7 +22,7 @@ export class StudyProgramController {
 
   @Get()
   findAll() {
-    return this.studyProgramService.findAll();
+    return this.studyProgramService.getAllByUserLogin();
   }
 
   @Get(':id')
@@ -39,14 +39,4 @@ export class StudyProgramController {
   getStudyProgramByBlockId(@Param('blockId') blockId: ParseIntPipe) {
     return this.studyProgramService.getStudyProgramByBlockId(+blockId);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateStudyProgramDto: UpdateStudyProgramDto) {
-  //   return this.studyProgramService.update(+id, updateStudyProgramDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.studyProgramService.remove(+id);
-  // }
 }

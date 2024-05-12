@@ -52,6 +52,9 @@ export class ClassManagerLessonController {
       where: {
         id: +id,
       },
+      relations: {
+        lesson: true,
+      },
     });
   }
 }

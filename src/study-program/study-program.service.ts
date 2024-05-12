@@ -25,4 +25,14 @@ export class StudyProgramService extends BaseService<StudyProgramEntity> {
       },
     });
   }
+
+  getAllByUserLogin() {
+    const userLogin = getUserCls();
+
+    return this.repo.find({
+      where: {
+        createdBy: userLogin.id,
+      },
+    });
+  }
 }
